@@ -2,23 +2,19 @@
 <html lang="pt">
 <head>
   <meta charset="UTF-8">
-  <title>Formulário com Dropdown Dinâmico</title>
+  <title>Widget Dropdown Dinâmico</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 2rem; }
-    iframe { width: 100%; height: 700px; border: 2px solid #ccc; margin-top: 20px; }
+    body { font-family: Arial, sans-serif; margin: 1rem; }
   </style>
 </head>
 <body>
 
-  <h2>Escolher uma opção</h2>
   <label for="dropdown">Selecione uma categoria:</label>
   <select id="dropdown">
     <option disabled selected>A carregar opções...</option>
   </select>
 
-
   <script src="//js.jotform.com/JotFormCustomWidget.min.js"></script>
-
   <script>
     async function carregarOpcoes() {
       const apiKey = "9be9a89e6af80cf2e4a4891b2170dd0b";
@@ -50,20 +46,16 @@
     }
 
     document.getElementById("dropdown").addEventListener("change", function () {
-      const valor = encodeURIComponent(this.value);
-      //const iframe = document.getElementById("JotFormIFrame-250854445418057");
+      const valor = this.value;
 
-      // ⚠️ Campo correto: q4_testeDe
-      //onst novoSRC = `https://form.jotform.com/250854445418057?q4_testeDe=${valor}`;
-      iframe.src = novoSRC;
-    });
-    
-    JJFCustomWidget.sendData({
-        value: this.value
+      // Envia o valor para o formulário Jotform
+      JFCustomWidget.sendData({
+        value: valor
       });
+    });
 
+    // Inicializa o dropdown
     carregarOpcoes();
-
   </script>
 </body>
 </html>
