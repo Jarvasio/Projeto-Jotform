@@ -18,7 +18,7 @@
   <script>
     async function carregarOpcoes() {
       const apiKey = "9be9a89e6af80cf2e4a4891b2170dd0b";
-      const formID = "250995384164063";
+      const formID = "251124801004338";
 
       try {
         const response = await fetch(`https://eu-api.jotform.com/form/${formID}/submissions?apiKey=${apiKey}`);
@@ -30,7 +30,7 @@
         const opcoesUnicas = new Set();
 
         data.content.forEach(submissao => {
-          const resposta = submissao.answers["3"]?.answer;
+          const resposta = submissao.answers["1"]?.answer;
           if (resposta && !opcoesUnicas.has(resposta)) {
             opcoesUnicas.add(resposta);
             const opt = document.createElement("option");
