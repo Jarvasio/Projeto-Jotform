@@ -19,10 +19,9 @@
     async function carregarOpcoes() {
       const apiKey = "9be9a89e6af80cf2e4a4891b2170dd0b";
       const formID = "251124801004338";
-      const campoID = "3"; // Altera aqui conforme o ID do campo correto
 
       try {
-        const response = await fetch(`https://eu-api.jotform.com/form/${formID}/submissions?apiKey=${apiKey}`);
+        const response = await fetch(https://eu-api.jotform.com/form/${formID}/submissions?apiKey=${apiKey});
         const data = await response.json();
 
         const dropdown = document.getElementById("dropdown");
@@ -31,8 +30,7 @@
         const opcoesUnicas = new Set();
 
         data.content.forEach(submissao => {
-          const resposta = submissao.answers[campoID]?.answer;
-
+          const resposta = submissao.answers["1"]?.answer;
           if (resposta && !opcoesUnicas.has(resposta)) {
             opcoesUnicas.add(resposta);
             const opt = document.createElement("option");
@@ -49,11 +47,14 @@
 
     document.getElementById("dropdown").addEventListener("change", function () {
       const valor = this.value;
+
+      // Envia o valor para o formulário Jotform
       JFCustomWidget.sendData({
         value: valor
       });
     });
 
+    // Inicializa o dropdown
     carregarOpcoes();
   </script>
 </body>
