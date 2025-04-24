@@ -25,7 +25,7 @@
         const data = await response.json();
 
         const dropdown = document.getElementById("dropdown");
-        //dropdown.innerHTML = "<option disabled selected>Escolha uma opção...</option>";
+        dropdown.innerHTML = "<option disabled selected>Escolha uma opção...</option>";
 
         const opcoesUnicas = new Set();
 
@@ -34,8 +34,8 @@
           if (resposta && !opcoesUnicas.has(resposta)) {
             opcoesUnicas.add(resposta);
             const opt = document.createElement("option");
-            opt.value = resposta;
-            opt.textContent = resposta;
+            opt.value = resposta.trim;
+            opt.textContent = resposta.trim;
             dropdown.appendChild(opt);
           }
         });
