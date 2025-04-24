@@ -10,7 +10,7 @@
 <body>
 
   <label for="dropdown">Selecione uma categoria:</label>
-    <option>"Escolhe uma das seguintes opções apresentadas"</option>
+    <option disabled selected>A carregar opções...</option>
   <select id="dropdown">
     
   </select>
@@ -26,7 +26,7 @@
         const data = await response.json();
 
         const dropdown = document.getElementById("dropdown");
-        dropdown.innerHTML = "<option disabled selected>Escolha uma opção...</option>";
+        // dropdown.innerHTML = "<option disabled selected>Escolha uma opção...</option>";
 
         const opcoesUnicas = new Set();
 
