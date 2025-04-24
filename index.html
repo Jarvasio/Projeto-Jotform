@@ -30,7 +30,7 @@
         const opcoesUnicas = new Set();
 
         data.content.forEach(submissao => {
-          const resposta = submissao.answers["2"]?.answer;
+          const resposta = submissao.answers["1"]?.answer;
           if (resposta && !opcoesUnicas.has(resposta)) {
             opcoesUnicas.add(resposta);
             const opt = document.createElement("option");
