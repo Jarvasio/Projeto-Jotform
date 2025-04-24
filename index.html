@@ -66,6 +66,21 @@
   });
 
   carregarOpcoes();
+
+   const todasAsRespostas = [];
+
+data.content.forEach((submissao) => {
+  let resposta = submissao.answers["1"]?.answer;
+
+  if (Array.isArray(resposta)) {
+    resposta.forEach(item => todasAsRespostas.push(item.trim()));
+  } else if (typeof resposta === "string") {
+    todasAsRespostas.push(resposta.trim());
+  }
+});
+
+console.log("Total de valores únicos:", new Set(todasAsRespostas).size);
+console.log("Todos os valores:", todasAsRespostas);
 </script>
 </body>
 </html>
