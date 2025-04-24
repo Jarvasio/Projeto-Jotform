@@ -34,7 +34,7 @@
           if (resposta && !opcoesUnicas.has(resposta)) {
             opcoesUnicas.add(resposta);
             const opt = document.createElement("option");
-            opt.value = resposta.trim;
+            opt.value = resposta;
             opt.textContent = resposta;
             dropdown.appendChild(opt);
           }
