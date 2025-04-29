@@ -77,7 +77,7 @@
           const limpo1 = typeof parte1 === "string" ? parte1.trim() : "";
           const limpo2 = typeof parte2 === "string" ? parte2.trim() : "";
 
-          const respostaComposta = limpo1 && limpo2 ? `${limpo1} - ${limpo2}` : limpo1 || limpo2;
+          const respostaComposta = limpo1 && limpo2 ? `${limpo1} / ${limpo2}` : limpo1 || limpo2;
 
           if (!opcoesUnicas.has(respostaComposta)) {
             opcoesUnicas.add(respostaComposta);
