@@ -2,56 +2,118 @@
 <html lang="pt">
 <head>
   <meta charset="UTF-8">
-  <body>
-  </body>
-  <h2>Escolher uma opção</h2>
+  <title>Widget Dropdown Dinâmico</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+      margin: 1.5rem;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+  
+    label {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      display: block;
+      color: #2c3e50;
+    }
+  
+    select#dropdown {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      font-size: 1rem;
+      border: 1px solid #d0d5dd;
+      border-radius: 8px;
+      background-color: #ffffff;
+      color: #344054;
+      appearance: none; /* Remove o aspeto nativo em alguns browsers */
+      background-image: url('data:image/svg+xml;charset=US-ASCII,<svg width="12" height="8" viewBox="0 0 12 8" xmlns="http://www.w3.org/2000/svg"><path d="M1.41 0L6 4.58 10.59 0 12 1.41l-6 6-6-6z" fill="%23444"/></svg>');
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      background-size: 0.65rem auto;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+  
+    select#dropdown:focus {
+      outline: none;
+      border-color: #3966fa;
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
+    }
+  
+    option {
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+
   <label for="dropdown">Selecione uma categoria:</label>
   <select id="dropdown">
     <option disabled selected>A carregar opções...</option>
   </select>
-  <script>
-    async function carregarOpcoes() {
-      const apiKey = "9be9a89e6af80cf2e4a4891b2170dd0b";
-      const formID = "250995384164063";
 
-      try {
-        const response = await fetch(`https://eu-api.jotform.com/form/${formID}/submissions?apiKey=${apiKey}`);
-        const data = await response.json();
+  <script src="//js.jotform.com/JotFormCustomWidget.min.js"></script>
+ <script>
+  async function carregarOpcoes() {
+    const apiKey = "9be9a89e6af80cf2e4a4891b2170dd0b";
+    const formID = "251124801004338";
 
-        const dropdown = document.getElementById("dropdown");
-        dropdown.innerHTML = "<option disabled selected>Escolha uma opção...</option>";
+    try {
+      const response = await fetch(`https://eu-api.jotform.com/form/${formID}/submissions?apiKey=${apiKey}&limit=1000`);
+      const data = await response.json();
 
-        const opcoesUnicas = new Set();
+      const dropdown = document.getElementById("dropdown");
+      dropdown.innerHTML = "<option disabled selected>Escolha uma opção...</option>";
 
-        data.content.forEach(submissao => {
-          const resposta = submissao.answers["3"]?.answer;
-          if (resposta && !opcoesUnicas.has(resposta)) {
-            opcoesUnicas.add(resposta);
-            const opt = document.createElement("option");
-            opt.value = resposta;
-            opt.textContent = resposta;
-            dropdown.appendChild(opt);
+      const opcoesUnicas = new Set();
+
+      data.content.forEach(submissao => {
+        const parte1 = submissao.answers["1"]?.answer;
+        const parte2 = submissao.answers["2"]?.answer;
+
+        // Verifica se pelo menos um dos campos tem conteúdo válido
+        if ((typeof parte1 === "string" && parte1.trim()) || (typeof parte2 === "string" && parte2.trim())) {
+          const limpo1 = typeof parte1 === "string" ? parte1.trim() : "";
+          const limpo2 = typeof parte2 === "string" ? parte2.trim() : "";
+
+          const respostaComposta = limpo1 && limpo2 ? `${limpo1} - ${limpo2}` : limpo1 || limpo2;
+
+          if (!opcoesUnicas.has(respostaComposta)) {
+            opcoesUnicas.add(respostaComposta);
+            dropdown.appendChild(new Option(respostaComposta, respostaComposta));
           }
-        });
-      } catch (erro) {
-        alert("Erro ao carregar opções do dropdown.");
-        console.error(erro);
-      }
-    }
+        }
+      });
+          } catch (erro) {
+            alert("Erro ao carregar opções do dropdown.");
+            console.error(erro);
+          }
+        }
 
-    function aplicarCSSPersonalizado(css) {
-      const style = document.createElement("style");
-      style.innerHTML = css;
-      document.head.appendChild(style);
-    }
-
-    window.addEventListener("message", function (e) {
-      if (e.data.type === "ready") {
-        const customCSS = window.properties.customCSS || "";
-        aplicarCSSPersonalizado(customCSS);
-        carregarOpcoes();
-      }
+  document.getElementById("dropdown").addEventListener("change", function () {
+    const valor = this.value;
+    JFCustomWidget.sendData({
+      value: valor
     });
-  </script>
-</head>
+  });
+
+  carregarOpcoes();
+
+   const todasAsRespostas = [];
+
+data.content.forEach((submissao) => {
+  let resposta = submissao.answers["1"]?.answer;
+
+  if (Array.isArray(resposta)) {
+    resposta.forEach(item => todasAsRespostas.push(item.trim()));
+  } else if (typeof resposta === "string") {
+    todasAsRespostas.push(resposta.trim());
+  }
+});
+
+console.log("Total de valores únicos:", new Set(todasAsRespostas).size);
+console.log("Todos os valores:", todasAsRespostas);
+</script>
+</body>
 </html>
