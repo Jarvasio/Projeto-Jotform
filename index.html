@@ -103,7 +103,7 @@
    const todasAsRespostas = [];
 
 data.content.forEach((submissao) => {
-  let resposta = submissao.answers["1"]?.answer;
+  let resposta = submissao.answers["3"]?.answer;
 
   if (Array.isArray(resposta)) {
     resposta.forEach(item => todasAsRespostas.push(item.trim()));
